@@ -1,4 +1,4 @@
-from Domain.cheltuiala import create_cheltuiala, get_id, get_nr_apartament, get_suma, get_data, get_tip
+from Domain.cheltuiala2 import create_cheltuiala, get_id, get_nr_apartament, get_suma, get_data, get_tip
 
 
 def test_domain():

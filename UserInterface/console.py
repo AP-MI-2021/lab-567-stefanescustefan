@@ -1,6 +1,6 @@
-from Domain.cheltuiala import to_string
+from Domain.cheltuiala2 import to_string
 from Logic.CRUD import add_cheltuiala, remove_cheltuiala, update_cheltuiala
-from Logic.functions import sterge_cheltuieli_apartament
+from Logic.functions import sterge_cheltuieli_apartament, adunare_valoare_pentru_data
 
 
 def print_menu():
@@ -8,6 +8,7 @@ def print_menu():
     print("2. Stergere cheltuiala")
     print("3. Modificare cheltuiala")
     print("4. Stergerea tuturor cheltuielilor pentru un apartament")
+    print("5. Adauga o valoare tuturor cheltuielilor dintr-o data anume")
     print("a. Afiseaza toate cheltuielile")
     print("x. Iesire")
 
@@ -45,6 +46,12 @@ def ui_sterge_cheltuieli_apartament(lista):
     return sterge_cheltuieli_apartament(nr_apartament, lista)
 
 
+def ui_adauga_valoare_pentru_data(lista):
+    data = input("Dati o data: ")
+    valoare = float(input("Dati o valoare: "))
+    return adunare_valoare_pentru_data(data, valoare, lista)
+
+
 def run_menu():
     lista = []
     while True:
@@ -58,6 +65,8 @@ def run_menu():
             lista = ui_modificare_cheltuiala(lista)
         elif optiune == '4':
             lista = ui_sterge_cheltuieli_apartament(lista)
+        elif optiune == '5':
+            lista = ui_adauga_valoare_pentru_data(lista)
         elif optiune == 'a':
             ui_afiseaza_toate(lista)
         elif optiune == 'x':

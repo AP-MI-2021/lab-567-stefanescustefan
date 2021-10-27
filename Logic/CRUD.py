@@ -1,4 +1,4 @@
-from Domain.cheltuiala import create_cheltuiala, get_id
+from Domain.cheltuiala2 import create_cheltuiala, get_id
 
 
 def add_cheltuiala(id, nr_apartament, suma, data, tipul, lista):

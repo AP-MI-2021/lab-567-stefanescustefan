@@ -1,5 +1,5 @@
 from Logic.CRUD import add_cheltuiala, remove_cheltuiala, update_cheltuiala, retrieve_cheltuiala
-from Domain.cheltuiala import get_id, get_nr_apartament, get_suma, get_data, get_tip
+from Domain.cheltuiala2 import get_id, get_nr_apartament, get_suma, get_data, get_tip
 
 
 def test_add_cheltuiala():
