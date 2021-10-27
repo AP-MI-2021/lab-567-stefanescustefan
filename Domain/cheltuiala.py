@@ -46,4 +46,4 @@ def get_tip(cheltuiala):
 
 def to_string(cheltuiala):
     return f"id: {get_id(cheltuiala)}, numar apartament: {get_nr_apartament(cheltuiala)}, " \
-           f"suma: {get_suma(cheltuiala)}, tip: {get_tip(cheltuiala)}"
+           f"suma: {get_suma(cheltuiala)}, data: {get_data(cheltuiala)}, tip: {get_tip(cheltuiala)}"
