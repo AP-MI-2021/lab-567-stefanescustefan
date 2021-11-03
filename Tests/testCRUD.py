@@ -22,8 +22,14 @@ def test_remove_cheltuiala():
     assert len(lista) == 1
     assert retrieve_cheltuiala("102", lista) is None
 
-    lista = remove_cheltuiala("43", lista)
-    assert len(lista) == 1
+    try:
+        lista = remove_cheltuiala("43", lista)
+        assert False
+    except ValueError as ve:
+        assert len(lista) == 1
+    except Exception as e:
+        assert False
+
     assert retrieve_cheltuiala("101", lista) is not None
 
 

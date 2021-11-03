@@ -13,6 +13,8 @@ def add_cheltuiala(id, nr_apartament, suma, data, tipul, lista):
     :param lista: Lista de cheltuieli
     :return: Noua lista
     """
+    if retrieve_cheltuiala(id, lista) is not None:
+        raise ValueError("Id-ul exista deja!")
     cheltuiala = create_cheltuiala(id, nr_apartament, suma, data, tipul)
     return lista + [cheltuiala]
 
@@ -25,6 +27,8 @@ def remove_cheltuiala(id, lista):
     :param lista: Lista de cheltuieli
     :return: Lista fara elementul cu id-ul dat
     """
+    if retrieve_cheltuiala(id, lista) is None:
+        raise ValueError("Nu exista o cheltuiala cu id-ul dat!")
     return [c for c in lista if get_id(c) != id]
 
 
@@ -39,6 +43,8 @@ def update_cheltuiala(id, nr_apartament, suma, data, tipul, lista):
     :param tipul: noul tip
     :param lista: Lista de cheltuieli
     """
+    if retrieve_cheltuiala(id, lista) is None:
+        raise ValueError("Nu exista o cheltuiala cu id-ul dat!")
     lista_noua = []
     for cheltuiala in lista:
         if get_id(cheltuiala) == id:

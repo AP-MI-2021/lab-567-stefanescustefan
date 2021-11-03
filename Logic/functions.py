@@ -30,3 +30,18 @@ def adunare_valoare_pentru_data(data, valoare, lista):
         else:
             lista_noua.append(c)
     return lista_noua
+
+
+def cea_mai_mare_cheltuiala(tip, lista):
+    """
+    Returneaza cele mai mari cheltuieli pentru fiecare tip
+
+    :param tip: Tipul cheltuielii
+    :param lista: Lista de cheltuieli
+    :return: Cheltuiala cea mai mare de tipul dat
+    """
+
+    if not any(get_tip(c) == tip for c in lista):
+        return None
+
+    return max([c for c in lista if get_tip(c) == tip], key=lambda c: get_suma(c))
