@@ -45,3 +45,31 @@ def cea_mai_mare_cheltuiala(tip, lista):
         return None
 
     return max([c for c in lista if get_tip(c) == tip], key=lambda c: get_suma(c))
+
+
+def ordonare_desc_suma(lista):
+    """
+    Returneaza lista ordonata descrescator dupa suma
+
+    :param lista: Lista de cheltuieli
+    :return: Lista ordonata descrescator
+    """
+
+    return sorted(lista, key=lambda cheltuiala: get_suma(cheltuiala), reverse=True)
+
+
+def suma_lunara_ap(lista, ap, luna):
+    """
+    Determina sumele lunare pentru un apartament si o luna
+
+    :param lista: Lista de cheltuieli
+    :param ap: Apartamentul
+    :param luna: Luna
+    :return: Suma cheltuielilor dintr-o luna pentru un apartament
+    """
+    suma = 0
+    for c in lista:
+        if get_nr_apartament(c) == ap and int(get_data(c).split(".")[1]) == luna:
+            suma = suma + get_suma(c)
+
+    return suma
