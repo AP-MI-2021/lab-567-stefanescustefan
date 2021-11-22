@@ -1,7 +1,7 @@
 from Domain.cheltuiala2 import create_cheltuiala, get_id
 
 
-def add_cheltuiala(id, nr_apartament, suma, data, tipul, lista):
+def add_cheltuiala(id, nr_apartament, suma, data, tipul, lista, undo_list, redo_list):
     """
     Adauga o cheltuiala in lista
 
@@ -11,28 +11,40 @@ def add_cheltuiala(id, nr_apartament, suma, data, tipul, lista):
     :param data: Data
     :param tipul: Tipul cheltuielii (intretinere, canal, alte cheltuieli)
     :param lista: Lista de cheltuieli
+    :param undo_list: Lista undo
+    :param redo_list: Lista redo
     :return: Noua lista
     """
     if retrieve_cheltuiala(id, lista) is not None:
         raise ValueError("Id-ul exista deja!")
     cheltuiala = create_cheltuiala(id, nr_apartament, suma, data, tipul)
+
+    undo_list.append(lista)
+    redo_list.clear()
+
     return lista + [cheltuiala]
 
 
-def remove_cheltuiala(id, lista):
+def remove_cheltuiala(id, lista, undo_list, redo_list):
     """
     Sterge o cheltuiala cu id-ul dat
 
     :param id: Id de sters
     :param lista: Lista de cheltuieli
+    :param undo_list
+    :param redo_list
     :return: Lista fara elementul cu id-ul dat
     """
     if retrieve_cheltuiala(id, lista) is None:
         raise ValueError("Nu exista o cheltuiala cu id-ul dat!")
+
+    undo_list.append(lista)
+    redo_list.clear()
+
     return [c for c in lista if get_id(c) != id]
 
 
-def update_cheltuiala(id, nr_apartament, suma, data, tipul, lista):
+def update_cheltuiala(id, nr_apartament, suma, data, tipul, lista, undo_list, redo_list):
     """
     Modifica o cheltuiala dupa id
 
@@ -42,6 +54,9 @@ def update_cheltuiala(id, nr_apartament, suma, data, tipul, lista):
     :param data: noua data
     :param tipul: noul tip
     :param lista: Lista de cheltuieli
+    :param undo_list
+    :param redo_list
+    :return: Lista cu elementul modificat
     """
     if retrieve_cheltuiala(id, lista) is None:
         raise ValueError("Nu exista o cheltuiala cu id-ul dat!")
@@ -52,6 +67,10 @@ def update_cheltuiala(id, nr_apartament, suma, data, tipul, lista):
             lista_noua.append(cheltuiala_noua)
         else:
             lista_noua.append(cheltuiala)
+
+    undo_list.append(lista)
+    redo_list.clear()
+
     return lista_noua
 
 

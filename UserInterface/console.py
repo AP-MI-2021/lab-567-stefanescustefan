@@ -1,7 +1,7 @@
 from Domain.cheltuiala2 import to_string
 from Logic.CRUD import add_cheltuiala, remove_cheltuiala, update_cheltuiala
 from Logic.functions import sterge_cheltuieli_apartament, adunare_valoare_pentru_data, cea_mai_mare_cheltuiala, \
-    ordonare_desc_suma, suma_lunara_ap
+    ordonare_desc_suma, suma_lunara_ap, do_undo, do_redo
 
 
 def print_menu():
@@ -27,10 +27,7 @@ def ui_adauga_cheltuiala(lista, undoList, redoList):
         data = input("Dati data: ")
         tipul = input("Dati tipul: ")
 
-        rezultat = add_cheltuiala(id, nr_apartament, suma, data, tipul, lista)
-        undoList.append(lista)
-        redoList.clear()
-        return rezultat
+        return add_cheltuiala(id, nr_apartament, suma, data, tipul, lista, undoList, redoList)
     except ValueError as ve:
         print(f"Eroare: {ve}")
         return lista
@@ -39,10 +36,7 @@ def ui_adauga_cheltuiala(lista, undoList, redoList):
 def ui_sterge_cheltuiala(lista, undoList, redoList):
     try:
         id = input("Dati id: ")
-        rezultat = remove_cheltuiala(id, lista)
-        undoList.append(lista)
-        redoList.clear()
-        return rezultat
+        return remove_cheltuiala(id, lista, undoList, redoList)
     except ValueError as ve:
         print(f"Eroare: {ve}")
         return lista
@@ -56,10 +50,7 @@ def ui_modificare_cheltuiala(lista, undoList, redoList):
         data = input("Dati data: ")
         tipul = input("Dati tipul: ")
 
-        rezultat = update_cheltuiala(id, nr_apartament, suma, data, tipul, lista)
-        undoList.append(lista)
-        redoList.clear()
-        return rezultat
+        return update_cheltuiala(id, nr_apartament, suma, data, tipul, lista, undoList, redoList)
     except ValueError as ve:
         print(f"Eroare: {ve}")
         return lista
@@ -74,24 +65,18 @@ def ui_sterge_cheltuieli_apartament(lista, undoList, redoList):
     try:
         nr_apartament = int(input("Dati numarul apartamentului: "))
 
-        rezultat = sterge_cheltuieli_apartament(nr_apartament, lista)
-        undoList.append(lista)
-        redoList.clear()
-        return rezultat
+        return sterge_cheltuieli_apartament(nr_apartament, lista, undoList, redoList)
     except ValueError as ve:
         print(f"Eroare: {ve}")
         return lista
 
 
-def ui_adauga_valoare_pentru_data(lista, undoList, redoList):
+def ui_adauga_valoare_pentru_data(lista, undo_list, redo_list):
     try:
         data = input("Dati o data: ")
         valoare = float(input("Dati o valoare: "))
 
-        rezultat = adunare_valoare_pentru_data(data, valoare, lista)
-        undoList.append(lista)
-        redoList.clear()
-        return rezultat
+        return adunare_valoare_pentru_data(data, valoare, lista, undo_list, redo_list)
     except ValueError as ve:
         print(f"Eroare: {ve}")
         return lista
@@ -149,15 +134,15 @@ def run_menu():
         elif optiune == 'a':
             ui_afiseaza_toate(lista)
         elif optiune == 'u':
-            if len(undoList) > 0:
-                redoList.append(lista)
-                lista = undoList.pop()
+            previous_list = do_undo(undoList, redoList, lista)
+            if previous_list is not None:
+                lista = previous_list
             else:
                 print("Nu se poate face undo!")
         elif optiune == 'r':
-            if len(redoList) > 0:
-                undoList.append(lista)
-                lista = redoList.pop()
+            previous_list = do_redo(undoList, redoList, lista)
+            if previous_list is not None:
+                lista = previous_list
             else:
                 print("Nu se poate face redo!")
         elif optiune == 'x':
